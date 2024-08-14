@@ -45,7 +45,7 @@ html {
 }
 
 * {
-  font-family: var(--font-nunito), sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 .scrollbar::-webkit-scrollbar {
@@ -66,11 +66,11 @@ html {
   background: #dbdadd;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+/*@layer utilities {*/
+/*  .text-balance {*/
+/*    text-wrap: balance;*/
+/*  }*/
+/*}*/
 
 @layer base {
   * {
