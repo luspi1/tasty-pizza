@@ -1,7 +1,11 @@
+import { Container, Title } from '@/components/shared'
+
 export default function Home() {
 	return (
 		<>
-			<h1>Home</h1>
+			<Container className='mt-9'>
+				<Title className='font-extrabold' size='lg'>Все пиццы</Title>
+			</Container>
 		</>
 	)
 }
