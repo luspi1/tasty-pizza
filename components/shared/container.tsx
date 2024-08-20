@@ -1,11 +1,12 @@
 import {cn} from '@/lib/utils';
-import React from 'react';
+import React, { FC, ReactNode } from 'react'
 
-interface Props {
+type ContainerProps = {
   className?: string;
+  children: ReactNode;
 }
 
-export const Container: React.FC<React.PropsWithChildren<Props>> = ({
+export const Container: FC<ContainerProps> = ({
                                                                       className,
                                                                       children
                                                                     }) => {

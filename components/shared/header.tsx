@@ -5,11 +5,11 @@ import { Container } from '@/components/shared/container'
 import { Button } from '../ui'
 import { ArrowRight, ShoppingCart, UserRound } from 'lucide-react'
 
-type Props = {
+type HeaderProps = {
   className?: string
 }
 
-export const Header: FC<Props> = ({className}) => {
+export const Header: FC<HeaderProps> = ({className}) => {
   return (
     <header className={cn('border border-b', className)}>
       <Container className="flex items-center justify-between py-8">
