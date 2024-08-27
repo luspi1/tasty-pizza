@@ -26,7 +26,7 @@ export const Filters: FC = () => {
 				</div>
 				<RangeSlider min={0} max={5000} step={10} value={[0, 5000]}/>
 			</div>
-			<CheckboxFiltersGroup title="Ингредиенты" className="mt-5" limit={6}
+			<CheckboxFiltersGroup title="Ингредиенты" className="mt-5" limit={4}
 			                      defaultItems={[{
 				                      text: 'Сырный соус',
 				                      value: '1',
@@ -40,7 +40,7 @@ export const Filters: FC = () => {
 					                      value: '3',
 				                      },
 				                      {
-					                      text: 'Солённые огурчики',
+					                      text: 'Солёные огурчики',
 					                      value: '4',
 				                      },
 				                      {
@@ -64,7 +64,7 @@ export const Filters: FC = () => {
 					                      value: '3',
 				                      },
 				                      {
-					                      text: 'Солённые огурчики',
+					                      text: 'Солёные огурчики',
 					                      value: '4',
 				                      },
 				                      {
@@ -88,7 +88,7 @@ export const Filters: FC = () => {
 					                      value: '3',
 				                      },
 				                      {
-					                      text: 'Солённые огурчики',
+					                      text: 'Солёные огурчики',
 					                      value: '4',
 				                      },
 				                      {

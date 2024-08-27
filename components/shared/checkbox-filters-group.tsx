@@ -1,11 +1,12 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import {
 	FilterCheckbox,
 	FilterCheckboxProps
 } from '@/components/shared/filter-checkbox'
-import { Input } from '@/components/ui'
+import { Button, Input } from '@/components/ui'
+import { Minus, Plus } from 'lucide-react'
 
 type CheckboxItem = FilterCheckboxProps
 
@@ -30,23 +31,60 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
 	defaultValue,
 	className
 }) => {
+
+	const [isExpanded, setIsExpanded] = useState<boolean>(false)
+	const [searchInputValue, setSearchInputValue] = useState<string>('')
+	const filteredList = isExpanded ?
+		items
+			.filter(el => el.text.toLowerCase().includes(searchInputValue.toLowerCase()))
+		:
+		items.slice(0, limit)
+
+	const handleToggleExpanded = () => {
+		setIsExpanded(!isExpanded)
+		setSearchInputValue('')
+	}
+
 	return (
 		<div className={className}>
 			{title && <p className="font-bold mb-3">{title}</p>}
-			<div className="mb-5">
-				<Input placeholder={searchInputPlaceholder}
-				       className="bg-gray-50 border-none"/>
-			</div>
+			{
+				isExpanded && (
+					<div className="mb-5">
+						<Input placeholder={searchInputPlaceholder}
+						       className="bg-gray-50 border-none"
+						       onChange={(e) => setSearchInputValue(e.target.value)}/>
+					</div>
+				)
+			}
 
 			<div
 				className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
 				{
-					items.map((item, idx) => (
-						<FilterCheckbox onCheckedChange={(val) => console.log(val)} checked={false} key={idx} text={item.text}
-						                value={item.value} endAdornment={item.endAdornment}/>
+					filteredList.map((item, idx) => (
+						<FilterCheckbox onCheckedChange={(val) => console.log(val)}
+						                checked={false} key={idx} text={item.text}
+						                value={item.value}
+						                endAdornment={item.endAdornment}/>
 					))
 				}
 			</div>
+			<Button className="flex items-center gap-1 px-0 mt-3" variant="secondary"
+			        onClick={handleToggleExpanded}>
+				{
+					isExpanded ?
+						<>
+							<Minus size={16}/>
+							Свернуть
+						</>
+						:
+						<>
+							<Plus size={16}/>
+							Показать всё
+						</>
+				}
+
+			</Button>
 		</div>
 	)
 }
