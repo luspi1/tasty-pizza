@@ -1,5 +1,6 @@
 import { hashSync } from 'bcrypt'
-import { prisma } from '@/prisma/prisma-client'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 async function up() {
 	await prisma.user.createMany({
