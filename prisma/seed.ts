@@ -21,6 +21,27 @@ async function up() {
 			},
 		]
 	})
+
+	await prisma.category.createMany({
+		data: [
+			{
+				name: 'Пиццы'
+			},
+			{
+				name: 'Завтрак'
+			},
+			{
+				name: 'Закуски'
+			},
+			{
+				name: 'Коктейли'
+			},
+			{
+				name: 'Напитки'
+			},
+		]
+	})
+
 }
 
 async function down() {
@@ -29,8 +50,8 @@ async function down() {
 
 async function main() {
 	try {
-		await up()
 		await down()
+		await up()
 	} catch (e) {
 		console.error(e)
 	}
