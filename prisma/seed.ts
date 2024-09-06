@@ -1,7 +1,30 @@
 import { hashSync } from 'bcrypt'
-import { PrismaClient } from '@prisma/client'
-import { _ingredients, categories, products } from '@/prisma/const'
+import { _ingredients, categories, products } from './const'
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient()
+
+
+const randomDecimalNumber = (min: number, max: number) => {
+	return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
+};
+
+const generateProductItem = ({
+	productId,
+	type,
+	size,
+}: {
+	productId: number;
+	type?: 1 | 2;
+	size?: 20 | 30 | 40;
+}) => {
+	return {
+		productId,
+		price: randomDecimalNumber(190, 600),
+		type,
+		size,
+	}
+};
+
 
 async function up() {
 	await prisma.user.createMany({
@@ -71,16 +94,39 @@ async function up() {
 		},
 	});
 
+	await prisma.variation.createMany({
+		data: [
+			// Пицца "Пепперони фреш"
+			generateProductItem({ productId: pizza1.id, type: 1, size: 20 }),
+			generateProductItem({ productId: pizza1.id, type: 2, size: 30 }),
+			generateProductItem({ productId: pizza1.id, type: 2, size: 40 }),
+
+			// Пицца "Сырная"
+			generateProductItem({ productId: pizza2.id, type: 1, size: 20 }),
+			generateProductItem({ productId: pizza2.id, type: 1, size: 30 }),
+			generateProductItem({ productId: pizza2.id, type: 1, size: 40 }),
+			generateProductItem({ productId: pizza2.id, type: 2, size: 20 }),
+			generateProductItem({ productId: pizza2.id, type: 2, size: 30 }),
+			generateProductItem({ productId: pizza2.id, type: 2, size: 40 }),
+
+			// Пицца "Чоризо фреш"
+			generateProductItem({ productId: pizza3.id, type: 1, size: 20 }),
+			generateProductItem({ productId: pizza3.id, type: 2, size: 30 }),
+			generateProductItem({ productId: pizza3.id, type: 2, size: 40 }),
+		]
+	})
+
+
 }
 
 async function down() {
 	await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
+	await prisma.$executeRaw`TRUNCATE TABLE "Variation" RESTART IDENTITY CASCADE`;
 	await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
-	await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`;
-	await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`;
 	await prisma.$executeRaw`TRUNCATE TABLE "Ingredient" RESTART IDENTITY CASCADE`;
 	await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
-	await prisma.$executeRaw`TRUNCATE TABLE "ProductItem" RESTART IDENTITY CASCADE`;
+	// await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`;
+	// await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`;
 }
 
 async function main() {
