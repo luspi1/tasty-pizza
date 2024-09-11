@@ -1,12 +1,13 @@
 import { hashSync } from 'bcrypt'
 import { _ingredients, categories, products } from './const'
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
+
 const prisma = new PrismaClient()
 
 
 const randomDecimalNumber = (min: number, max: number) => {
-	return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
-};
+	return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10
+}
 
 const generateProductItem = ({
 	productId,
@@ -23,7 +24,7 @@ const generateProductItem = ({
 		type,
 		size,
 	}
-};
+}
 
 
 async function up() {
@@ -68,7 +69,7 @@ async function up() {
 				connect: [],
 			},
 		},
-	});
+	})
 
 	const pizza2 = await prisma.product.create({
 		data: {
@@ -80,7 +81,7 @@ async function up() {
 				connect: _ingredients.slice(5, 10),
 			},
 		},
-	});
+	})
 
 	const pizza3 = await prisma.product.create({
 		data: {
@@ -92,7 +93,7 @@ async function up() {
 				connect: _ingredients.slice(10, 40),
 			},
 		},
-	});
+	})
 
 	await prisma.variation.createMany({
 		data: [
@@ -113,20 +114,63 @@ async function up() {
 			generateProductItem({ productId: pizza3.id, type: 1, size: 20 }),
 			generateProductItem({ productId: pizza3.id, type: 2, size: 30 }),
 			generateProductItem({ productId: pizza3.id, type: 2, size: 40 }),
+
+			// Остальные продукты
+			generateProductItem({ productId: 1 }),
+			generateProductItem({ productId: 2 }),
+			generateProductItem({ productId: 3 }),
+			generateProductItem({ productId: 4 }),
+			generateProductItem({ productId: 5 }),
+			generateProductItem({ productId: 6 }),
+			generateProductItem({ productId: 7 }),
+			generateProductItem({ productId: 8 }),
+			generateProductItem({ productId: 9 }),
+			generateProductItem({ productId: 10 }),
+			generateProductItem({ productId: 11 }),
+			generateProductItem({ productId: 12 }),
+			generateProductItem({ productId: 13 }),
+			generateProductItem({ productId: 14 }),
+			generateProductItem({ productId: 15 }),
+			generateProductItem({ productId: 16 }),
+			generateProductItem({ productId: 17 }),
 		]
 	})
 
+	await prisma.cart.createMany({
+		data: [
+			{
+				userId: 1,
+				totalAmount: 0,
+				token: '1312da3'
+			},
+			{
+				userId: 2,
+				totalAmount: 0,
+				token: '1dawv3'
+			},
+		]
+	})
 
+	await prisma.cartItem.create({
+		data: {
+			variationId: 1,
+			cartId: 1,
+			quantity: 2,
+			ingredients: {
+				connect: [{ id: 1 }, { id: 2 }, { id: 3 }]
+			}
+		}
+	})
 }
 
 async function down() {
-	await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
-	await prisma.$executeRaw`TRUNCATE TABLE "Variation" RESTART IDENTITY CASCADE`;
-	await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
-	await prisma.$executeRaw`TRUNCATE TABLE "Ingredient" RESTART IDENTITY CASCADE`;
-	await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
-	// await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`;
-	// await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`;
+	await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`
+	await prisma.$executeRaw`TRUNCATE TABLE "Variation" RESTART IDENTITY CASCADE`
+	await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`
+	await prisma.$executeRaw`TRUNCATE TABLE "Ingredient" RESTART IDENTITY CASCADE`
+	await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`
+	await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`
+	await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`
 }
 
 async function main() {
