@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { Container } from '@/components/shared/container'
 import { Button } from '../ui'
 import { ArrowRight, ShoppingCart, UserRound } from 'lucide-react'
+import Link from 'next/link'
+import { SearchInput } from '@/components/shared/search-input'
 
 type HeaderProps = {
   className?: string
@@ -13,19 +15,21 @@ export const Header: FC<HeaderProps> = ({className}) => {
   return (
     <header className={cn('border border-b', className)}>
       <Container className="flex items-center justify-between py-8">
-        <div className="flex items-center gap-2">
-          <Image src="/logo.png" alt="Logo" width={32} height={32}/>
-          <div>
-            <h1 className="text-2xl uppercase font-black">
-              Tasty Pizza
-            </h1>
-            <p className="text-sm text-gray-400 leading-3">Вкусно с первого
-              кусочка!</p>
+        <Link href='/'>
+          <div className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Logo" width={32} height={32}/>
+            <div>
+              <h1 className="text-2xl uppercase font-black">
+                Tasty Pizza
+              </h1>
+              <p className="text-sm text-gray-400 leading-3">Вкусно с первого
+                кусочка!</p>
+            </div>
           </div>
+        </Link>
+        <div className="mx-10 flex-1">
+          <SearchInput/>
         </div>
-        {/*<div className="mx-10 flex-1">*/}
-        {/*  <SearchInput/>*/}
-        {/*</div>*/}
         <div className="flex items-center gap-3">
           <Button className="flex items-center gap-1" variant="outline">
             <UserRound size={16}/>
