@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react'
 import { cn } from '@/lib/utils';
 import { Minus, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,7 @@ interface Props {
   className?: string;
 }
 
-export const CountButton: React.FC<Props> = ({ className, value = 1, size = 'sm' }) => {
+export const CountButton:FC<Props> = ({ className, value = 1, size = 'sm' }) => {
   return (
     <div className={cn('inline-flex items-center justify-between gap-3', className)}>
       <Button
