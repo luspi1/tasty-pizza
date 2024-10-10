@@ -5,7 +5,7 @@ import {
 	FilterCheckbox,
 	FilterCheckboxProps
 } from '@/components/shared/filter-checkbox'
-import { Button, Input } from '@/components/ui'
+import { Button, Input, Skeleton } from '@/components/ui'
 import { Minus, Plus } from 'lucide-react'
 
 type CheckboxItem = FilterCheckboxProps
@@ -13,22 +13,24 @@ type CheckboxItem = FilterCheckboxProps
 type CheckboxFiltersGroupProps = {
 	title?: string
 	items: CheckboxItem[]
-	defaultItems?: CheckboxItem[]
 	limit?: number
 	searchInputPlaceholder?: string
-	onChange?: (values: string[]) => void
+	onClickCheckbox?: (id: string) => void
 	defaultValue?: string[]
 	className?: string
+	loading?:boolean
+	selectedIds?: Set<string>,
 }
 
 export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
 	title,
 	items,
-	defaultItems,
 	searchInputPlaceholder = 'Поиск...',
 	limit = 5,
-	onChange,
+	loading = false,
+	onClickCheckbox,
 	defaultValue,
+	selectedIds,
 	className
 }) => {
 
@@ -43,6 +45,18 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
 	const handleToggleExpanded = () => {
 		setIsExpanded(!isExpanded)
 		setSearchInputValue('')
+	}
+	if (loading) {
+		return <div className={className}>
+			{title && <p className="font-bold mb-3">{title}</p>}
+			{
+				Array.from({length: limit}).map((_, idx) => (
+					<Skeleton key={idx} className='h-6 mb-4 rounded-[8px]'/>
+				))
+			}
+			<Skeleton className='w-28 h-6 mb-4 rounded-[8px]'/>
+
+		</div>
 	}
 
 	return (
@@ -62,8 +76,8 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
 				className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
 				{
 					filteredList.map((item, idx) => (
-						<FilterCheckbox onCheckedChange={(val) => console.log(val)}
-						                checked={false} key={idx} text={item.text}
+						<FilterCheckbox onCheckedChange={() => onClickCheckbox?.(item.value)}
+						                checked={selectedIds?.has(item.value)} key={idx} text={item.text}
 						                value={item.value}
 						                endAdornment={item.endAdornment}/>
 					))

@@ -11,7 +11,7 @@ import { Input } from '@/components/ui'
 import { useFilterIngredients } from '@/hooks/useFilterIngredients'
 
 export const Filters: FC = () => {
-	const {ingredients} = useFilterIngredients()
+	const {ingredients, loading, onAddId, selectedIds} = useFilterIngredients()
 
 	const preparedIngredients = ingredients.map((el) => ({value: String(el.id), text: el.name}))
 
@@ -33,9 +33,8 @@ export const Filters: FC = () => {
 				</div>
 				<RangeSlider min={0} max={5000} step={10} value={[0, 5000]}/>
 			</div>
-			<CheckboxFiltersGroup title="Ингредиенты" className="mt-5" limit={4}
-			                      defaultItems={preparedIngredients.slice(0, 6)}
-			                      items={preparedIngredients}/>
+			<CheckboxFiltersGroup title="Ингредиенты" loading={loading} className="mt-5" limit={4}
+			                      items={preparedIngredients} onClickCheckbox={onAddId} selectedIds={selectedIds}/>
 		</div>
 	)
 }
