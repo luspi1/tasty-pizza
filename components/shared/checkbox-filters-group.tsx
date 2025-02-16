@@ -20,6 +20,7 @@ type CheckboxFiltersGroupProps = {
 	className?: string
 	loading?:boolean
 	selectedIds?: Set<string>,
+	name?: string
 }
 
 export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
@@ -31,7 +32,8 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
 	onClickCheckbox,
 	defaultValue,
 	selectedIds,
-	className
+	className,
+	name
 }) => {
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false)
@@ -79,7 +81,7 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
 						<FilterCheckbox onCheckedChange={() => onClickCheckbox?.(item.value)}
 						                checked={selectedIds?.has(item.value)} key={idx} text={item.text}
 						                value={item.value}
-						                endAdornment={item.endAdornment}/>
+						                endAdornment={item.endAdornment} name={name}/>
 					))
 				}
 			</div>

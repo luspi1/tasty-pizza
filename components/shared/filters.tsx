@@ -21,8 +21,8 @@ export const Filters: FC = () => {
 				Фильтрация
 			</Title>
 			<div className="flex flex-col gap-4">
-				<FilterCheckbox text="Можно собирать" value="1"/>
-				<FilterCheckbox text="Новинки" value="2"/>
+				<FilterCheckbox name='cat' text="Можно собирать" value="1"/>
+				<FilterCheckbox name='cat' text="Новинки" value="2"/>
 			</div>
 			<div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
 				<p className="font-bold mb-3">Цена от и до:</p>
@@ -34,7 +34,7 @@ export const Filters: FC = () => {
 				<RangeSlider min={0} max={5000} step={10} value={[0, 5000]}/>
 			</div>
 			<CheckboxFiltersGroup title="Ингредиенты" loading={loading} className="mt-5" limit={4}
-			                      items={preparedIngredients} onClickCheckbox={onAddId} selectedIds={selectedIds}/>
+			                      items={preparedIngredients} onClickCheckbox={onAddId} selectedIds={selectedIds} name='ingredients'/>
 		</div>
 	)
 }

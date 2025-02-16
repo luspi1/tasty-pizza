@@ -10,12 +10,11 @@ type ReturnProps = {
 	onAddId: (id: string) => void
 }
 
-
-
 export const useFilterIngredients = (): ReturnProps => {
 	const [ingredients, setIngredients] = useState<Ingredient[]>([])
 	const [loading, setLoading] = useState(true)
 	const [selectedIds, { toggle }] = useSet(new Set<string>([]));
+
 	useEffect(() => {
 		(async () => {
 			try {
